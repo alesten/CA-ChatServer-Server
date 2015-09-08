@@ -34,71 +34,69 @@ public class Client extends Thread {
         input = new Scanner(socket.getInputStream());
 
     }
-    
-    public void send(String msg){
+
+    public void send(String msg) {
         output.println(msg);
     }
-    
+
     @Override
     public void run() {
         String inputStr;
-        
-        while(true){
+
+        while (true) {
             inputStr = input.nextLine();
-            
-            if(inputStr.contains(Protocol.USER)){
+
+            if (inputStr.contains(Protocol.USER)) {
                 String name = inputStr.substring(Protocol.USER.length());
-                
-                if(userName != null && !userName.isEmpty()){
+
+                if (userName != null && !userName.isEmpty()) {
                     send("You are already connected with UserName " + userName);
                     continue;
                 }
-                
+
                 userName = name;
-                if(cc.AddClient(this)){
+                if (cc.AddClient(this)) {
                     send("Connected with UserName " + userName);
-                }else{
+                } else {
                     send("UserName already in use");
                 }
-            }else if(inputStr.contains(Protocol.MSG)){
-                if(userName == null){
+            } else if (inputStr.contains(Protocol.MSG)) {
+                if (userName == null) {
                     send("You need to connect first using USER#{UserName}");
                     continue;
                 }
-                
+
                 String str = inputStr.substring(Protocol.MSG.length());
-                
-                if(!str.contains("#")){
+
+                if (!str.contains("#")) {
                     send("Command not found");
                     continue;
                 }
-                
+
                 String receviversStr = str.split("[#]")[0];
                 String message = str.split("[#]")[1];
-                
-                if(receviversStr.equals("*")){
+
+                if (receviversStr.equals("*")) {
                     cc.SendToAll(message);
                     continue;
                 }
-                
-                if(receviversStr.contains(",")){
-                    String[] recevivers = receviversStr.split("[,]");
+
+                if (receviversStr.contains(",")) {
+                    String[] recevivers = receviversStr.toLowerCase().split("[,]");
                     cc.SendToUsers(recevivers, message);
                     continue;
                 }
-                
-                if(!cc.SendToUser(receviversStr, message)){
+
+                if (!cc.SendToUser(receviversStr, message)) {
                     send("Could not find user " + receviversStr);
                 }
-            }else if(inputStr.contains(Protocol.USERLIST)){
-                if(userName == null){
+            } else if (inputStr.contains(Protocol.USERLIST)) {
+                if (userName == null) {
                     send("You need to connect first using USER#{UserName}");
                     continue;
                 }
-                
-                
-                
-            }else if(inputStr.contains(Protocol.STOP)){
+
+            } else if (inputStr.contains(Protocol.STOP)) {
                 send("Disconnted");
                 try {
                     socket.close();
@@ -107,7 +105,7 @@ public class Client extends Thread {
                 }
                 cc.RemoveClient(this);
                 break;
-            }else{
+            } else {
                 send("Command not found");
             }
         }
