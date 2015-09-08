@@ -21,4 +21,30 @@ public class ClientController {
     public void RemoveClient(Client client){
         clients.remove(client);
     }
+    
+    public void SendToAll(String msg){
+        for (Client client : clients) {
+            client.send(msg);
+        }
+    }
+    
+    public boolean SendToUser(String user, String msg){
+        Client endClient = null;
+        for (Client client : clients) {
+            if(client.getUserName().toLowerCase().equals(user.toLowerCase())){
+                endClient = client;
+                break;
+            }
+        }
+        
+        if(endClient == null){
+            return false;
+        }
+        endClient.send(msg);
+        return true;
+    }
+    
+    public void SendToUsers(String[] users, String msg){
+        
+    }
 }

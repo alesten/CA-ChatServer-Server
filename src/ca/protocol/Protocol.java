@@ -9,7 +9,7 @@ package ca.protocol;
  *
  * @author RolfMoikjær
  */
-public class protocol {
+public class Protocol {
 
     public static final String USER = "USER#";
     public static final String MSG = "MSG#";
