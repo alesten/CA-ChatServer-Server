@@ -5,20 +5,35 @@
  */
 package ca.entity;
 
+import controller.ClientController;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  *
  * @author RolfMoikjær
  */
-public class Client {
+public class Client extends Thread {
 
-    String userName;
-    Socket socket;
+    private String userName;
+    private Socket socket;
+    private PrintWriter output;
+    private Scanner input;
+    private ClientController cc;
 
-    public Client(Socket socket) {
+    public Client(Socket socket, ClientController cc) throws IOException {
         this.socket = socket;
+        this.cc = cc;
+        output = new PrintWriter(socket.getOutputStream(), true);
+        input = new Scanner(socket.getInputStream());
+
+    }
+
+    public void run() {
+
     }
 
     @Override
@@ -35,4 +50,5 @@ public class Client {
         }
         return true;
     }
+
 }
