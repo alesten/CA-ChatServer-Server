@@ -34,5 +34,4 @@ public class CAChatServerServer {
         ServerSocket ss = new ServerSocket();
         ss.bind(new InetSocketAddress(ip, port));
     }
-    
 }

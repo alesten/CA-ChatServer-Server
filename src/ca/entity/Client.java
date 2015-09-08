@@ -6,6 +6,7 @@
 package ca.entity;
 
 import java.net.Socket;
+import java.util.Objects;
 
 /**
  *
@@ -20,4 +21,18 @@ public class Client {
         this.socket = socket;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Client other = (Client) obj;
+        if (!Objects.equals(this.userName, other.userName)) {
+            return false;
+        }
+        return true;
+    }
 }
