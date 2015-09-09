@@ -1,6 +1,7 @@
 package controller;
 
 import ca.entity.Client;
+import ca.protocol.Protocol;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,11 +18,13 @@ public class ClientController {
             return false;
         }
         clients.add(client);
+        SendUserList();
         return true;
     }
 
     public void RemoveClient(Client client) {
         clients.remove(client);
+        SendUserList();
     }
 
     public void SendToAll(String msg) {
@@ -54,5 +57,16 @@ public class ClientController {
             }
         }
 
+    }
+    
+    public void SendUserList(){
+        String userList = Protocol.USERLIST;
+        for (Client client: clients) {
+            userList += client.getUserName() + ",";
+        }
+            if (clients.size() > 0) {
+            userList = userList.substring(0, userList.length() -1);
+        }
+            SendToAll(userList);
     }
 }
