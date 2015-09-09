@@ -77,7 +77,7 @@ public class Client extends Thread {
                 String message = str.split("[#]")[1];
 
                 if (receviversStr.equals("*")) {
-                    cc.SendToAll(message);
+                    cc.SendToAll(Protocol.MSG + userName + "#" + message);
                     continue;
                 }
 
@@ -90,12 +90,6 @@ public class Client extends Thread {
                 if (!cc.SendToUser(receviversStr, message)) {
                     send("Could not find user " + receviversStr);
                 }
-            } else if (inputStr.contains(Protocol.USERLIST)) {
-                if (userName == null) {
-                    send("You need to connect first using USER#{UserName}");
-                    continue;
-                }
-
             } else if (inputStr.contains(Protocol.STOP)) {
                 send("Disconnted");
                 try {
