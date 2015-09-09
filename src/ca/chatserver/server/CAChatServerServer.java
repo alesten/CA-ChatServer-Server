@@ -28,10 +28,6 @@ public class CAChatServerServer {
     public static void main(String[] args) throws IOException {
         String ip = properties.getProperty("serverIp");
         int port = Integer.parseInt(properties.getProperty("port"));
-        if (args.length == 2) {
-            ip = args[0];
-            port = Integer.parseInt(args[1]);
-        }
 
         ServerSocket ss = new ServerSocket();
         ss.bind(new InetSocketAddress(ip, port));

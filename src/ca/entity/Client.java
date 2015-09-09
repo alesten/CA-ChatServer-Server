@@ -9,6 +9,7 @@ import ca.protocol.Protocol;
 import controller.ClientController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -39,10 +40,10 @@ public class Client extends Thread {
         output.println(Protocol.MSG + sender + "#" + msg);
     }
 
-     public void send(String msg) {
+    public void send(String msg) {
         output.println(msg);
     }
-    
+
     @Override
     public void run() {
         String inputStr;
@@ -128,5 +129,4 @@ public class Client extends Thread {
         return userName;
     }
 
-   
 }
