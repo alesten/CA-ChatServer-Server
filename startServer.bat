@@ -1,0 +1,1 @@
+java -cp CA-ChatServer-Server.jar ca.chatserver.server.CAChatServerServer
