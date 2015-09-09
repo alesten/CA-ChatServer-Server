@@ -35,10 +35,14 @@ public class Client extends Thread {
 
     }
 
-    public void send(String msg) {
-        output.println(msg);
+    public void send(String msg, String sender) {
+        output.println(Protocol.MSG + sender + "#" + msg);
     }
 
+     public void send(String msg) {
+        output.println(msg);
+    }
+    
     @Override
     public void run() {
         String inputStr;
@@ -50,26 +54,26 @@ public class Client extends Thread {
                 String name = inputStr.substring(Protocol.USER.length());
 
                 if (userName != null && !userName.isEmpty()) {
-                    send("You are already connected with UserName " + userName);
+                    send("You are already connected with UserName " + userName, "System");
                     continue;
                 }
 
                 userName = name;
                 if (cc.AddClient(this)) {
-                    send("Connected with UserName " + userName);
+                    send("Connected with UserName " + userName, "System");
                 } else {
-                    send("UserName already in use");
+                    send("UserName already in use", "System");
                 }
             } else if (inputStr.contains(Protocol.MSG)) {
                 if (userName == null) {
-                    send("You need to connect first using USER#{UserName}");
+                    send("You need to connect first using USER#{UserName}", "System");
                     continue;
                 }
 
                 String str = inputStr.substring(Protocol.MSG.length());
 
                 if (!str.contains("#")) {
-                    send("Command not found");
+                    send("Command not found", "System");
                     continue;
                 }
 
@@ -77,21 +81,21 @@ public class Client extends Thread {
                 String message = str.split("[#]")[1];
 
                 if (receviversStr.equals("*")) {
-                    cc.SendToAll(Protocol.MSG + userName + "#" + message);
+                    cc.SendToAll(message, userName);
                     continue;
                 }
 
                 if (receviversStr.contains(",")) {
                     String[] recevivers = receviversStr.toLowerCase().split("[,]");
-                    cc.SendToUsers(recevivers, message);
+                    cc.SendToUsers(recevivers, message, userName);
                     continue;
                 }
 
-                if (!cc.SendToUser(receviversStr, message)) {
-                    send("Could not find user " + receviversStr);
+                if (!cc.SendToUser(receviversStr, message, userName)) {
+                    send("Could not find user " + receviversStr, "System");
                 }
             } else if (inputStr.contains(Protocol.STOP)) {
-                send("Disconnted");
+                send("Disconnted", "System");
                 try {
                     socket.close();
                 } catch (IOException ex) {
@@ -100,7 +104,7 @@ public class Client extends Thread {
                 cc.RemoveClient(this);
                 break;
             } else {
-                send("Command not found");
+                send("Command not found", "System");
             }
         }
     }
@@ -124,4 +128,5 @@ public class Client extends Thread {
         return userName;
     }
 
+   
 }
