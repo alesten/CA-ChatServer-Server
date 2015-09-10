@@ -34,6 +34,7 @@ public class DummyClient {
 
     public String receive() {
         String msg = input.nextLine();
+        System.out.println(msg);
         return msg;
     }
 }

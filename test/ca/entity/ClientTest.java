@@ -29,6 +29,7 @@ public class ClientTest {
     private static ClientController cc;
     private static Client client;
     static Thread serverThread;
+    DummyClient dummyClient;
 
     public ClientTest() {
     }
@@ -66,18 +67,25 @@ public class ClientTest {
      */
     @Test
     public void testSendMSG() throws IOException {
-        System.out.println("USER#");
-        String msg = "USER#Rolf";
-        String receiveMsg = "USERLIST#Rolf";
-        DummyClient dummyClient = new DummyClient();
-        dummyClient.send(msg);
-
-        assertEquals(dummyClient.receive(), receiveMsg);
-    }
-
-    @Test
-    public void testSendUSER() {
-        System.out.println("USER#");
+        dummyClient = new DummyClient();
         
+        //First Test USER#
+        System.out.println("USER#");
+        String msg1 = "USER#Rolf";
+        String receive1 = "USERLIST#Rolf";
+        
+        dummyClient.send(msg1);
+
+        assertEquals(dummyClient.receive(), receive1);
+
+        //next test MSG#
+        System.out.println("MSG#");
+        String msg2 = "MSG#*#HEJHEJ";
+        String receive2 = "MSG#Rolf#HEJHEJ";
+
+        dummyClient.send(msg2);
+
+        assertEquals(dummyClient.receive(), receive2);
     }
+
 }
