@@ -57,7 +57,7 @@ public class Client extends Thread {
                 try {
                     socket.close();
                 } catch (IOException exc) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, exc);
+                    Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, exc);
                 }
                 cc.RemoveClient(this);
                 break;
@@ -70,7 +70,7 @@ public class Client extends Thread {
                     try {
                         socket.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 }
@@ -80,7 +80,7 @@ public class Client extends Thread {
                     try {
                         socket.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 }
@@ -89,7 +89,7 @@ public class Client extends Thread {
                     try {
                         socket.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 }
@@ -100,7 +100,7 @@ public class Client extends Thread {
                     try {
                         socket.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 }
@@ -126,7 +126,7 @@ public class Client extends Thread {
                 try {
                     socket.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cc.RemoveClient(this);
                 break;
@@ -134,7 +134,7 @@ public class Client extends Thread {
                 try {
                     socket.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ca.chatserver.server.CAChatServerServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
             }
