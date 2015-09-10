@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -49,33 +50,59 @@ public class Client extends Thread {
         String inputStr;
 
         while (true) {
-            inputStr = input.nextLine();
+            try{
+                inputStr = input.nextLine();
+            }catch(NoSuchElementException ex){
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    socket.close();
+                } catch (IOException exc) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, exc);
+                }
+                cc.RemoveClient(this);
+                break;
+            }
 
             if (inputStr.contains(Protocol.USER)) {
                 String name = inputStr.substring(Protocol.USER.length());
 
                 if (userName != null && !userName.isEmpty()) {
-                    send("You are already connected with UserName " + userName, "System");
-                    continue;
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
                 }
 
                 userName = name;
-                if (cc.AddClient(this)) {
-                    send("Connected with UserName " + userName, "System");
-                } else {
-                    send("UserName already in use", "System");
+                if (!cc.AddClient(this)) {
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
                 }
             } else if (inputStr.contains(Protocol.MSG)) {
                 if (userName == null) {
-                    send("You need to connect first using USER#{UserName}", "System");
-                    continue;
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
                 }
 
                 String str = inputStr.substring(Protocol.MSG.length());
 
                 if (!str.contains("#")) {
-                    send("Command not found", "System");
-                    continue;
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
                 }
 
                 String receviversStr = str.split("[#]")[0];
@@ -96,7 +123,6 @@ public class Client extends Thread {
                     send("Could not find user " + receviversStr, "System");
                 }
             } else if (inputStr.contains(Protocol.STOP)) {
-                send("Disconnted", "System");
                 try {
                     socket.close();
                 } catch (IOException ex) {
@@ -105,7 +131,12 @@ public class Client extends Thread {
                 cc.RemoveClient(this);
                 break;
             } else {
-                send("Command not found", "System");
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
             }
         }
     }
