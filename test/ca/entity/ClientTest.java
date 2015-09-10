@@ -5,11 +5,19 @@
  */
 package ca.entity;
 
+import ca.chatserver.server.CAChatServerServer;
+import controller.ClientController;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import utils.Utils;
 import static org.junit.Assert.*;
 
 /**
@@ -17,22 +25,38 @@ import static org.junit.Assert.*;
  * @author RolfMoikjær
  */
 public class ClientTest {
-    
+
+    private static ClientController cc;
+    private static Client client;
+    static Thread serverThread;
+
     public ClientTest() {
     }
-    
+
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws IOException {
+        serverThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CAChatServerServer.main(null);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        serverThread.start();
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
+        serverThread.interrupt();
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -41,68 +65,19 @@ public class ClientTest {
      * Test of send method, of class Client.
      */
     @Test
-    public void testSend_String_String() {
-        System.out.println("send");
-        String msg = "";
-        String sender = "";
-        Client instance = null;
-        instance.send(msg, sender);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSendMSG() throws IOException {
+        System.out.println("USER#");
+        String msg = "USER#Rolf";
+        String receiveMsg = "USERLIST#Rolf";
+        DummyClient dummyClient = new DummyClient();
+        dummyClient.send(msg);
+
+        assertEquals(dummyClient.receive(), receiveMsg);
     }
 
-    /**
-     * Test of send method, of class Client.
-     */
     @Test
-    public void testSend_String() {
-        System.out.println("send");
-        String msg = "";
-        Client instance = null;
-        instance.send(msg);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSendUSER() {
+        System.out.println("USER#");
+        
     }
-
-    /**
-     * Test of run method, of class Client.
-     */
-    @Test
-    public void testRun() {
-        System.out.println("run");
-        Client instance = null;
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of equals method, of class Client.
-     */
-    @Test
-    public void testEquals() {
-        System.out.println("equals");
-        Object obj = null;
-        Client instance = null;
-        boolean expResult = false;
-        boolean result = instance.equals(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getUserName method, of class Client.
-     */
-    @Test
-    public void testGetUserName() {
-        System.out.println("getUserName");
-        Client instance = null;
-        String expResult = "";
-        String result = instance.getUserName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

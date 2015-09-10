@@ -75,4 +75,8 @@ public class ClientController {
         }
         SendToAll(userList);
     }
+
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
 }

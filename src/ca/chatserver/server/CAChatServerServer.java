@@ -35,4 +35,7 @@ public class CAChatServerServer {
             new Client(ss.accept(), cc).start();
         }
     }
+
+    public void stop() {
+    }
 }
