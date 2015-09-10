@@ -1,0 +1,4 @@
+sep. 10, 2015 11:00:59 AM ca.chatserver.server.CAChatServerServer runServer
+INFO: Sever started. Listening on: 8888, bound to: localhost
+sep. 10, 2015 11:03:13 AM ca.chatserver.server.CAChatServerServer runServer
+INFO: Connected to a client
